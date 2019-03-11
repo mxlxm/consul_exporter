@@ -38,3 +38,11 @@ require (
 	labix.org/v2/mgo v0.0.0-20140701140051-000000000287 // indirect
 	launchpad.net/gocheck v0.0.0-20140225173054-000000000087 // indirect
 )
+
+replace (
+	golang.org/x/crypto => github.com/golang/crypto v0.0.0-20190308221718-c2843e01d9a2
+	golang.org/x/net => github.com/golang/net v0.0.0-20190311031020-56fb01167e7d
+	golang.org/x/sync => github.com/golang/sync v0.0.0-20190227155943-e225da77a7e6
+	golang.org/x/sys => github.com/golang/sys v0.0.0-20190310054646-10058d7d4faa
+	google.golang.org/appengine => github.com/golang/appengine v1.4.0
+)
