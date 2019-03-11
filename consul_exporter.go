@@ -136,8 +136,6 @@ func NewExporter(opts consulOpts, kvPrefix, kvFilter string, healthSummary bool)
 	config := consul_api.DefaultConfig()
 	config.Address = u.Host
 	config.Scheme = u.Scheme
-	config.HttpClient.Timeout = opts.timeout
-	config.HttpClient.Transport = transport
 
 	client, err := consul_api.NewClient(config)
 	if err != nil {
