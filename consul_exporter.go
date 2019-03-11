@@ -62,6 +62,11 @@ var (
 		"Tags of a service.",
 		[]string{"service_id", "node", "tag"}, nil,
 	)
+	serviceMetaData = prometheus.NewDesc(
+		prometheus.BuildFQName(namespace, "", "service_meta_data"),
+		"Service meta data",
+		[]string{"service_id", "key", "value"}, nil,
+	)
 	serviceNodesHealthy = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "", "catalog_service_node_healthy"),
 		"Is this service healthy on this node?",
@@ -226,6 +231,14 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 	ch <- prometheus.MustNewConstMetric(
 		serviceCount, prometheus.GaugeValue, float64(len(serviceNames)),
 	)
+
+	for _, service := range serviceNames {
+		for k, v := range service.Meta {
+			ch <- prometheus.MustNewConstMetric(
+				serviceMetaData, prometheus.GaugeValue, 1, service.ID, k, v,
+			)
+		}
+	}
 
 	if e.healthSummary {
 		e.collectHealthSummary(ch, serviceNames)
