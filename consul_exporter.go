@@ -64,7 +64,7 @@ var (
 	serviceMetaData = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "", "service_meta_data"),
 		"Service meta data",
-		[]string{"service_id", "service_name", "key", "value"}, nil,
+		[]string{"service_id", "service_name", "instance", "key", "value"}, nil,
 	)
 	serviceNodesHealthy = prometheus.NewDesc(
 		prometheus.BuildFQName(namespace, "", "catalog_service_node_healthy"),
@@ -238,7 +238,7 @@ func (e *Exporter) Collect(ch chan<- prometheus.Metric) {
 		for _, service := range services {
 			for k, v := range service.ServiceMeta {
 				ch <- prometheus.MustNewConstMetric(
-					serviceMetaData, prometheus.GaugeValue, 1, service.ServiceID, service.ServiceName, k, v,
+					serviceMetaData, prometheus.GaugeValue, 1, service.ServiceID, service.ServiceName, fmt.Sprintf("%s:%d", service.ServiceAddress, service.ServicePort), k, v,
 				)
 			}
 		}
